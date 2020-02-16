@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from pathlib import Path
 import dj_database_url
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: BASE_DIR/'new_path'
+BASE_DIR = Path(__file__).parent.resolve()
 
 
 # Quick-start development settings - unsuitable for production
@@ -55,7 +56,7 @@ ROOT_URLCONF = 'weles.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(BASE_DIR/'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,3 +117,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = str(BASE_DIR / 'static_collect')
+
+STATICFILES_DIRS = [
+    str(BASE_DIR / 'static'),
+]
+
+
+#  ____            _     _             _   _
+# |  _ \ ___  __ _(_)___| |_ _ __ __ _| |_(_) ___  _ __
+# | |_) / _ \/ _` | / __| __| '__/ _` | __| |/ _ \| '_ \
+# |  _ <  __/ (_| | \__ \ |_| | | (_| | |_| | (_) | | | |
+# |_| \_\___|\__, |_|___/\__|_|  \__,_|\__|_|\___/|_| |_|
+#            |___/
+
+REGISTRATION_OPEN = True

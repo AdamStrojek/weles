@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">Weles</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsDefault">
+    <ul class="navbar-nav mr-auto">
+      {% include "fragments/nav_item.html" with current_page=current_page page_view_name='index' page_name="Home" %}
+      <li class="nav-item">
+        <a class="nav-link" href="#">Links</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Create</a>
+      </li>
+    </ul>
+{#    <form class="form-inline my-2 my-lg-0">#}
+{#      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">#}
+{#      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>#}
+{#    </form>#}
+  </div>
+
+  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "login" %}">Sign in</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "django_registration_register" %}">Register</a>
+        </li>
+    </ul>
+  </div>
+</nav>

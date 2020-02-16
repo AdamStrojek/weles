@@ -1,0 +1,3 @@
+<li class="nav-item{% if current_page == page_view_name %} active{% endif %}">
+  <a class="nav-link" href="{% url page_view_name %}">{{ page_name }}{% if current_page == page_view_name %} <span class="sr-only">(current)</span>{% endif %}</a>
+</li>
