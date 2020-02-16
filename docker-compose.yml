@@ -1,0 +1,22 @@
+version: '3'
+services:
+  db:
+    image: postgres:9.6-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: weles
+  backend:
+    restart: always
+    env_file:
+      - ./.env
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    command: bash -c "/usr/local/bin/waitforit -host=db -port=5432 --timeout 30 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+     # This will allow to use same container without need to rebuild it if source code has changed
+     - ./backend:/usr/src/app
