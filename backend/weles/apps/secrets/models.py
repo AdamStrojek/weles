@@ -1,12 +1,15 @@
+from uuid import uuid4
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password, is_password_usable
 from django.db import models
-
+from django.urls import reverse
 
 User = get_user_model()
 
 
 class Secret(models.Model):
+    uuid = models.UUIDField(default=uuid4)
     user = models.ForeignKey(User, models.CASCADE)
     title = models.CharField('title', max_length=255)
     password = models.CharField('password', max_length=128)
@@ -21,7 +24,7 @@ class Secret(models.Model):
         self._password = raw_password
 
     def check_password(self, raw_password):
-        return check_password(raw_password, self.password, setter)
+        return check_password(raw_password, self.password)
 
     def set_unusable_password(self):
         # Set a value that will never be a valid hash
@@ -33,8 +36,19 @@ class Secret(models.Model):
         """
         return is_password_usable(self.password)
 
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('secret-redirect', kwargs={'uuid': self.uuid})
+
+    def get_redirect(self):
+        if self.url:
+            return self.url
+        return self.file.url
+
 
 class SecretAccessLog(models.Model):
-    secret = models.ForeignKey(Secret, models.CASCADE)
+    secret = models.ForeignKey(Secret, models.CASCADE, related_name='log')
     user_agent = models.TextField()  # Text field, because some browsers are generating a lot of text
     created = models.DateTimeField(auto_now_add=True)

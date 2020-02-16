@@ -19,9 +19,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
+from .apps.secrets.views import SecretRedirectView
+
 urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html"), name="index"),
     path('admin/', admin.site.urls),
     path('accounts/', include('django_registration.backends.one_step.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('s/<uuid>/', SecretRedirectView.as_view(), name='secret-redirect'),
+    path('secrets/', include('weles.apps.secrets.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
