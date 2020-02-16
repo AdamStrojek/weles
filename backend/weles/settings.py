@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,13 @@ STATICFILES_DIRS = [
 #            |___/
 
 REGISTRATION_OPEN = True
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+#  ____      _                   _____
+#  / ___|_ __(_)___ _ __  _   _  |  ___|__  _ __ _ __ ___  ___
+# | |   | '__| / __| '_ \| | | | | |_ / _ \| '__| '_ ` _ \/ __|
+# | |___| |  | \__ \ |_) | |_| | |  _| (_) | |  | | | | | \__ \
+#  \____|_|  |_|___/ .__/ \__, | |_|  \___/|_|  |_| |_| |_|___/
+#                  |_|    |___/
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

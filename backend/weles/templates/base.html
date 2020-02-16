@@ -16,7 +16,9 @@
   <body class="{% block body_class %}{% endblock %}">
     {% block nav %}{% endblock nav %}
 
-    {% block main_body %}<h1>Hello, world!</h1>{% endblock main_body %}
+    <main role="main" class="container">
+    {% block main_body %}{% endblock main_body %}
+    </main>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
