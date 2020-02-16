@@ -1,9 +1,11 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth, TruncDate
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import CreateView, DetailView, FormView
+from django.views.generic import CreateView, DetailView, FormView, ListView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
 
 from .models import Secret, SecretAccessLog
@@ -67,12 +69,34 @@ class SecretRedirectView(SingleObjectMixin, FormView):
         return kwargs
 
     def form_valid(self, form):
+        kwargs = {}
+        if self.object.url:
+            kwargs['url'] = 1
+        else:
+            kwargs['file'] = 1
         SecretAccessLog.objects.create(
             secret=self.object,
-            user_agent=self.request.META.get('HTTP_USER_AGENT', 'unknown')
+            user_agent=self.request.META.get('HTTP_USER_AGENT', 'unknown'),
+            **kwargs
         )
 
         return super(SecretRedirectView, self).form_valid(form)
 
     def get_success_url(self):
         return self.object.get_redirect()
+
+
+class SecretAccessLogView(TemplateView):
+    template_name = 'secrets/stats.html'
+
+    def get_queryset(self):
+        return SecretAccessLog.objects.select_related('secret').filter(secret__user=self.request.user)\
+            .annotate(date=TruncDate('created'))\
+            .values('date')\
+            .annotate(files=Sum('file'), urls=Sum('url'))\
+            .values('date', 'files', 'urls')
+
+    def get_context_data(self, **kwargs):
+        context_data = super(SecretAccessLogView, self).get_context_data(**kwargs)
+        context_data['objects'] = self.get_queryset()
+        return context_data

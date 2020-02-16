@@ -52,3 +52,5 @@ class SecretAccessLog(models.Model):
     secret = models.ForeignKey(Secret, models.CASCADE, related_name='log')
     user_agent = models.TextField()  # Text field, because some browsers are generating a lot of text
     created = models.DateTimeField(auto_now_add=True)
+    url = models.IntegerField(default=0)
+    file = models.IntegerField(default=0)
