@@ -30,6 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+AUTH_USER_MODEL = 'users.User'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'crispy_forms',
 
+    'weles.apps.users',
     'weles.apps.secrets'
 ]
 
@@ -53,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'weles.apps.users.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'weles.urls'

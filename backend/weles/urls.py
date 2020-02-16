@@ -20,10 +20,12 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 from .apps.secrets.views import SecretRedirectView
+from .apps.users.views import RegistrationView
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html"), name="index"),
     path('admin/', admin.site.urls),
+    path('accounts/register/', RegistrationView.as_view(), name='registration_register'),
     path('accounts/', include('django_registration.backends.one_step.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('s/<uuid>/', SecretRedirectView.as_view(), name='secret-redirect'),
