@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+
+    'weles.apps.secrets'
 ]
 
 MIDDLEWARE = [
