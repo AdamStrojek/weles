@@ -5,6 +5,8 @@ from django.contrib.auth.hashers import make_password, check_password, is_passwo
 from django.db import models
 from django.urls import reverse
 
+from .querysets import SecretQuerySet, SecretAccessLogQuerySet
+
 User = get_user_model()
 
 
@@ -18,6 +20,8 @@ class Secret(models.Model):
 
     file = models.FileField(blank=True)
     url = models.URLField(blank=True)
+
+    objects = SecretQuerySet.as_manager()
 
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
@@ -47,6 +51,12 @@ class Secret(models.Model):
             return self.url
         return self.file.url
 
+    def create_access_log(self, request):
+        return SecretAccessLog.objects.create(
+            secret=self,
+            user_agent=request.META.get('HTTP_USER_AGENT', 'unknown'),
+        )
+
 
 class SecretAccessLog(models.Model):
     secret = models.ForeignKey(Secret, models.CASCADE, related_name='log')
@@ -54,3 +64,5 @@ class SecretAccessLog(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     url = models.IntegerField(default=0)
     file = models.IntegerField(default=0)
+
+    objects = SecretAccessLogQuerySet.as_manager()
