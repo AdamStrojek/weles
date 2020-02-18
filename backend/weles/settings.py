@@ -131,6 +131,8 @@ STATICFILES_DIRS = [
     str(BASE_DIR / 'static'),
 ]
 
+MEDIA_ROOT = str(BASE_DIR / 'media')
+MEDIA_URL = '/media/'
 
 #  ____            _     _             _   _
 # |  _ \ ___  __ _(_)___| |_ _ __ __ _| |_(_) ___  _ __

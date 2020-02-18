@@ -30,4 +30,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('s/<uuid>/', SecretRedirectView.as_view(), name='secret-redirect'),
     path('secrets/', include('weles.apps.secrets.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('api/v1/', include('weles.urls_api')),
+]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
