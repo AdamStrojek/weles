@@ -6,6 +6,8 @@ from django.core.exceptions import ValidationError
 from django.forms import widgets
 
 from .models import Secret
+from ...utils.forms import PasswordField
+from ...utils.validators import url_or_file_validator
 
 
 class AdminSecretForm(forms.ModelForm):
@@ -74,24 +76,19 @@ class AdminSecretPasswordForm(forms.Form):
 
 
 class AddSecretForm(forms.ModelForm):
-    password = forms.CharField(widget=widgets.PasswordInput())
+    password = PasswordField()
 
     class Meta:
         model = Secret
         fields = ['title', 'password', 'file', 'url']
 
-    def clean_password(self):
-        raw_password = self.cleaned_data['password']
-        return make_password(raw_password)
-
     def clean(self):
         cleaned_data = super().clean()
 
-        if not cleaned_data.get('file') and not cleaned_data.get('url'):
-            raise ValidationError("You need to provide one of this fields: file or URL")
+        result = url_or_file_validator(cleaned_data)
 
-        if cleaned_data.get('file') and  cleaned_data.get('url'):
-            raise ValidationError("You cannot provide both of this fields: file or URL")
+        if result is not None:
+            raise ValidationError(result)
 
         return cleaned_data
 
