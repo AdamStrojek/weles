@@ -8,7 +8,7 @@ from .models import Secret, SecretAccessLog
 from .forms import AddSecretForm, CheckPasswordSecretForm
 
 
-class CreateSecretView(LoginRequiredMixin, CreateView):
+class SecretCreateView(LoginRequiredMixin, CreateView):
     template_name = 'secrets/create.html'
     model = Secret
     form_class = AddSecretForm
