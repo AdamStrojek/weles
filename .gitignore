@@ -1,6 +1,7 @@
 # Custom
 env
 static_collect/
+media/
 
 # Python
 # Byte-compiled / optimized / DLL files
