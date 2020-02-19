@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
-from .apps.secrets.views import SecretRedirectView
+from .apps.secrets.views import SecretAccessView
 from .apps.users.views import RegistrationView
 
 urlpatterns = [
@@ -28,7 +28,7 @@ urlpatterns = [
     path('accounts/register/', RegistrationView.as_view(), name='registration_register'),
     path('accounts/', include('django_registration.backends.one_step.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('s/<uuid>/', SecretRedirectView.as_view(), name='secret-redirect'),
+    path('s/<uuid>/', SecretAccessView.as_view(), name='secrets-access'),
     path('secrets/', include('weles.apps.secrets.urls')),
     path('api/v1/', include('weles.urls_api')),
 ]

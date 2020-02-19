@@ -20,7 +20,7 @@ class SecretCreateView(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse('secret-detail', kwargs={'uuid': self.object.uuid})
+        return reverse('secrets-detail', kwargs={'uuid': self.object.uuid})
 
 
 class SecretDetailView(LoginRequiredMixin, DetailView):
@@ -34,11 +34,11 @@ class SecretDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         data = super(SecretDetailView, self).get_context_data(**kwargs)
-        data['object_url'] = self.request.build_absolute_uri(self.object.get_absolute_url())
+        data['object_url'] = self.request.build_absolute_uri(self.object.get_web_url())
         return data
 
 
-class SecretRedirectView(SingleObjectMixin, FormView):
+class SecretAccessView(SingleObjectMixin, FormView):
     template_name = 'secrets/redirect.html'
 
     model = Secret  # TODO change it to queryset so can filter only 24h links
@@ -59,13 +59,13 @@ class SecretRedirectView(SingleObjectMixin, FormView):
         return super().post(request, *args, **kwargs)
 
     def get_form_kwargs(self):
-        kwargs = super(SecretRedirectView, self).get_form_kwargs()
+        kwargs = super(SecretAccessView, self).get_form_kwargs()
         kwargs['secret_obj'] = self.object
         return kwargs
 
     def form_valid(self, form):
         self.object.create_access_log(self.request)
-        return super(SecretRedirectView, self).form_valid(form)
+        return super(SecretAccessView, self).form_valid(form)
 
     def get_success_url(self):
         return self.object.get_redirect()

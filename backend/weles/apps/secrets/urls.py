@@ -4,7 +4,7 @@ from .views import SecretCreateView, SecretDetailView, SecretAccessLogView
 
 
 urlpatterns = [
-    path('add/', SecretCreateView.as_view(), name='secret-add'),
-    path('stats/', SecretAccessLogView.as_view(), name='secret-stats'),
-    path('<uuid>/', SecretDetailView.as_view(), name='secret-detail'),
+    path('add/', SecretCreateView.as_view(), name='secrets-create'),
+    path('stats/', SecretAccessLogView.as_view(), name='secrets-stats'),
+    path('<uuid>/', SecretDetailView.as_view(), name='secrets-detail'),
 ]

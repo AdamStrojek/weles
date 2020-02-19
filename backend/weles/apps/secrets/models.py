@@ -43,8 +43,8 @@ class Secret(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse('secret-redirect', kwargs={'uuid': self.uuid})
+    def get_web_url(self):
+        return reverse('secrets-access', kwargs={'uuid': self.uuid})
 
     def get_redirect(self):
         if self.url:
