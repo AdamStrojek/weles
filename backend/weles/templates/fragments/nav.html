@@ -6,7 +6,9 @@
 
   <div class="collapse navbar-collapse" id="navbarsDefault">
     <ul class="navbar-nav mr-auto">
-      {% include "fragments/nav_item.html" with current_page=current_page page_view_name='index' page_name="Home" %}
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url "secrets-stats" %}">Stats</a>
       </li>
