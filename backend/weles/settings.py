@@ -24,11 +24,19 @@ BASE_DIR = Path(__file__).parent.resolve()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
+ENV = os.getenv('ENV', 'dev')
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ENV == 'dev'
 
 ALLOWED_HOSTS = []
 
+if not DEBUG:
+    ALLOWED_HOSTS += ['127.0.0.1', 'localhost']
+
+    domain = os.getenv('DOMAIN')
+    if domain:
+        ALLOWED_HOSTS.append(domain)
 
 AUTH_USER_MODEL = 'users.User'
 
