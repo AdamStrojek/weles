@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'crispy_forms',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
 
     'weles.apps.users',
     'weles.apps.secrets'
@@ -152,3 +155,16 @@ LOGOUT_REDIRECT_URL = '/'
 #  \____|_|  |_|___/ .__/ \__, | |_|  \___/|_|  |_| |_| |_|___/
 #                  |_|    |___/
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+#  ____  _____ ____ _____   _____                                            _
+# |  _ \| ____/ ___|_   _| |  ___| __ __ _ _ __ ___   _____      _____  _ __| | __
+# | |_) |  _| \___ \ | |   | |_ | '__/ _` | '_ ` _ \ / _ \ \ /\ / / _ \| '__| |/ /
+# |  _ <| |___ ___) || |   |  _|| | | (_| | | | | | |  __/\ V  V / (_) | |  |   <
+# |_| \_\_____|____/ |_|   |_|  |_|  \__,_|_| |_| |_|\___| \_/\_/ \___/|_|  |_|\_\
+#
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication'
+    ),
+}
