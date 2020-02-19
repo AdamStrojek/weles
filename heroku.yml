@@ -3,8 +3,7 @@ build:
     web: backend/Dockerfile
 release:
   command:
-    - python manage.py migrate
-    - python manage.py collectstatic --noinput
+    - python manage.py migrate --noinput && python manage.py collectstatic --noinput
   image: web
 run:
   web: gunicorn weles.wsgi:application --bind 0.0.0.0:$PORT
