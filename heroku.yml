@@ -1,0 +1,9 @@
+build:
+  docker:
+    web: backend/Dockerfile
+relesase:
+  command:
+    - python manage.py migrate
+    - python manage.py collectstatic --noinput
+run:
+  web: gunicorn weles.wsgi --log-file -
