@@ -9,6 +9,7 @@ from rest_framework.reverse import reverse as rest_reverse
 
 from .querysets import SecretQuerySet, SecretAccessLogQuerySet
 
+
 User = get_user_model()
 
 
