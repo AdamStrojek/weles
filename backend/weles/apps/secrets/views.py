@@ -41,7 +41,6 @@ class SecretDetailView(LoginRequiredMixin, DetailView):
 class SecretAccessView(SingleObjectMixin, FormView):
     template_name = 'secrets/redirect.html'
 
-    model = Secret  # TODO change it to queryset so can filter only 24h links
     slug_url_kwarg = 'uuid'
     slug_field = 'uuid'
 
@@ -71,7 +70,7 @@ class SecretAccessView(SingleObjectMixin, FormView):
         return self.object.get_redirect()
 
 
-class SecretAccessLogView(TemplateView):
+class SecretAccessLogView(LoginRequiredMixin, TemplateView):
     template_name = 'secrets/stats.html'
 
     def get_queryset(self):
