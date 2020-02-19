@@ -6,4 +6,4 @@ relesase:
     - python manage.py migrate
     - python manage.py collectstatic --noinput
 run:
-  web: gunicorn weles.wsgi --log-file -
+  web: gunicorn weles.wsgi:application --bind 0.0.0.0:$PORT
