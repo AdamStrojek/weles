@@ -5,6 +5,8 @@ from django.contrib.auth.hashers import make_password, check_password, is_passwo
 from django.db import models
 from django.urls import reverse
 
+from rest_framework.reverse import reverse as rest_reverse
+
 from .querysets import SecretQuerySet, SecretAccessLogQuerySet
 
 User = get_user_model()
@@ -45,6 +47,9 @@ class Secret(models.Model):
 
     def get_web_url(self):
         return reverse('secrets-access', kwargs={'uuid': self.uuid})
+
+    def get_api_url(self):
+        return rest_reverse('api-secrets-access', kwargs={'uuid': self.uuid})
 
     def get_redirect(self):
         if self.url:
