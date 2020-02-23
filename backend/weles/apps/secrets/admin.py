@@ -94,6 +94,6 @@ class SecretAdmin(admin.ModelAdmin):
         return TemplateResponse(
             request,
             self.change_user_password_template or
-            'admin/auth/user/change_password.html',
+            'admin/secrets/change_password.html',
             context,
         )

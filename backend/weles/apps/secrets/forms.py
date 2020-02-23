@@ -52,7 +52,7 @@ class AdminSecretPasswordForm(forms.Form):
     )
 
     def __init__(self, secret_obj, *args, **kwargs):
-        self.user = secret_obj
+        self.secret_obj = secret_obj
         super().__init__(*args, **kwargs)
 
     def clean_new_password2(self):
