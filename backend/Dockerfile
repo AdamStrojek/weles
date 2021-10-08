@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM python:3.9-alpine
 
 MAINTAINER Adam Strojek <adam@strojek.info>
 
@@ -9,7 +9,7 @@ RUN apk add --upgrade --no-cache \
     gettext \
     libjpeg \
     libstdc++ \
-    py-pip \
+    py3-pip \
     postgresql-client \
     postgresql-contrib && \
     apk add --no-cache --virtual .build-dependencies \
@@ -18,11 +18,11 @@ RUN apk add --upgrade --no-cache \
     libffi-dev \
     linux-headers \
     freetype-dev \
-    python-dev \
+    python3-dev \
     zlib-dev \
     postgresql-dev
 
-RUN pip install --upgrade pip && pip install wheel==0.32.3
+# RUN pip install --upgrade pip && pip install wheel==0.32.3
 
 ENV WAITFORIT_VERSION="v2.4.1"
 RUN curl -o /usr/local/bin/waitforit -sSL https://github.com/maxcnunes/waitforit/releases/download/$WAITFORIT_VERSION/waitforit-linux_amd64 && \
