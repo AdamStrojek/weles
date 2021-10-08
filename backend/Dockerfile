@@ -22,8 +22,6 @@ RUN apk add --upgrade --no-cache \
     zlib-dev \
     postgresql-dev
 
-# RUN pip install --upgrade pip && pip install wheel==0.32.3
-
 ENV WAITFORIT_VERSION="v2.4.1"
 RUN curl -o /usr/local/bin/waitforit -sSL https://github.com/maxcnunes/waitforit/releases/download/$WAITFORIT_VERSION/waitforit-linux_amd64 && \
     chmod +x /usr/local/bin/waitforit
