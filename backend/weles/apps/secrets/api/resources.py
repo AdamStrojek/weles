@@ -1,5 +1,7 @@
 from typing import List, Dict, Text, Any
 
+from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.fields import DateField
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, GenericAPIView
 from rest_framework.views import APIView
@@ -10,38 +12,25 @@ from .serializers import SecretSerializer, SecretPasswordSerializer
 from ..models import Secret, SecretAccessLog
 
 
-class SecretCreateAPIView(CreateAPIView):
+class SecretViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-
-    serializer_class = SecretSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class SecretRetrieveAPIView(RetrieveAPIView):
-    permission_classes = [IsAuthenticated]
-
-    serializer_class = SecretSerializer
 
     lookup_field = 'uuid'
     lookup_url_kwarg = 'uuid'
 
     def get_queryset(self):
-        return Secret.objects.filter(user=self.request.user)
+        qs = Secret.objects.all()
+        match self.action:
+            case 'list' | 'retrieve':
+                return qs.filter(user=self.request.user)
+            case 'create':
+                return qs
 
-
-class SecretAccessAPIView(GenericAPIView):
+    serializer_class = SecretSerializer
     password_serializer_class = SecretPasswordSerializer
-    serializer_class = SecretSerializer
 
-    lookup_field = 'uuid'
-    lookup_url_kwarg = 'uuid'
-
-    def get_queryset(self):
-        return Secret.objects.active()
-
-    def post(self, request, *args, **kwargs):
+    @action(detail=True, methods=['post'])
+    def access(self, request, pk=None):
         instance = self.get_object()
 
         context = {
@@ -54,7 +43,7 @@ class SecretAccessAPIView(GenericAPIView):
         return Response(serializer.data)
 
 
-class SecretAccessLogAPIView(APIView):
+class SecretAccessLogViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -70,7 +59,7 @@ class SecretAccessLogAPIView(APIView):
 
         return output
 
-    def get(self, request, format=None):
+    def list(self, request):
         data = self.get_queryset()
 
         output_data = self.process_data(data)

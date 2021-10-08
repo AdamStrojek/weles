@@ -1,10 +1,9 @@
-from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
-from .resources import SecretAccessLogAPIView, SecretCreateAPIView, SecretRetrieveAPIView, SecretAccessAPIView
+from .resources import SecretViewSet, SecretAccessLogViewSet
 
-urlpatterns = [
-    path('', SecretCreateAPIView.as_view(), name='api-secrets-create'),
-    path('stats/', SecretAccessLogAPIView.as_view(), name='api-secrets-log'),
-    path('<uuid>/', SecretRetrieveAPIView.as_view(), name='api-secrets-retrieve'),
-    path('<uuid>/access/', SecretAccessAPIView.as_view(), name='api-secrets-access'),
-]
+
+router = DefaultRouter()
+router.register(r'secrets', SecretViewSet, basename='api-secrets')
+router.register(r'stats', SecretAccessLogViewSet, basename='api-stats')
+urlpatterns = router.urls
