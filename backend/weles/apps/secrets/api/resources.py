@@ -29,6 +29,9 @@ class SecretViewSet(viewsets.ModelViewSet):
     serializer_class = SecretSerializer
     password_serializer_class = SecretPasswordSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
     @action(detail=True, methods=['post'])
     def access(self, request, pk=None):
         instance = self.get_object()
